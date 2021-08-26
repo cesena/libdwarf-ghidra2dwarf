@@ -20,6 +20,15 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_NON_SHARED=FALSE -DBUILD_SHARED=TRUE -DHAVE_ZLIB=FALSE -B build .
           cd build/libdwarf
           cmake --build .
+      
+      - name: Release file
+        uses: djnicholson/release-action@v2.11
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          asset-name: 'libdwarf.so'
+          file: 'build/libdwarf/libdwarf.so'
+          tag-name: 'latest'
+          release-name: 'Latest build'
 
   build-windows:
     runs-on: windows-latest
@@ -39,6 +48,15 @@ jobs:
           cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_NON_SHARED=FALSE -DBUILD_SHARED=TRUE -DHAVE_ZLIB=FALSE -B build .
           cd build/libdwarf
           cmake --build .
+      
+      - name: Release file
+        uses: djnicholson/release-action@v2.11
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          asset-name: 'libdwarf.dll'
+          file: 'build/libdwarf/libdwarf.dll'
+          tag-name: 'latest'
+          release-name: 'Latest build'
 
   build-macos:
     runs-on: macos-latest
@@ -53,3 +71,14 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_NON_SHARED=FALSE -DBUILD_SHARED=TRUE -DHAVE_ZLIB=FALSE -B build .
           cd build/libdwarf
           cmake --build .
+      
+      - name: Release file
+        uses: djnicholson/release-action@v2.11
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          asset-name: 'libdwarf.dylib'
+          file: 'build/libdwarf/libdwarf.dylib'
+          tag-name: 'latest'
+          release-name: 'Latest build'
+    
+    
