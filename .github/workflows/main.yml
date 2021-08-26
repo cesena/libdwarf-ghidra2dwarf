@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.21.1
+      
+      - name: Build
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_NON_SHARED=FALSE -DBUILD_SHARED=TRUE -DHAVE_ZLIB=FALSE -B build .
+          cd build/libdwarf
+          cmake --build .
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Install MinGW-w64
+        uses: egor-tensin/setup-mingw@v2
+        with:
+          cc: 0
+    
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.21.1
+      
+      - name: Build
+        run: |
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_NON_SHARED=FALSE -DBUILD_SHARED=TRUE -DHAVE_ZLIB=FALSE -B build .
+          cd build/libdwarf
+          cmake --build .
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.21.1
+      
+      - name: Build
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_NON_SHARED=FALSE -DBUILD_SHARED=TRUE -DHAVE_ZLIB=FALSE -B build .
+          cd build/libdwarf
+          cmake --build .
