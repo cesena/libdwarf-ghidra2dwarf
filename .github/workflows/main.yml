@@ -29,6 +29,11 @@ jobs:
           file: 'build/libdwarf/libdwarf.so'
           tag-name: 'latest'
           release-name: 'Latest build'
+      
+      - uses: actions/upload-artifact@v2
+        with:
+          name: libdwarf-linux
+          path: build/libdwarf/libdwarf.so
 
   build-windows:
     runs-on: windows-latest
